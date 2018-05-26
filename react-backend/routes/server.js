@@ -1,4 +1,4 @@
-var express = require('express');
+/*var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
@@ -22,5 +22,16 @@ router.post('/quotes', (req,res) =>{
     res.redirect('/');
 //    res.sendFile(__dirname + '/index.html')
 });
+
+module.exports = router;*/
+
+const express = require('express');
+
+const router = express();
+
+router.get('/', (req, res) => {
+  res.send({ express: 'Hello From Express' });
+});
+
 
 module.exports = router;
