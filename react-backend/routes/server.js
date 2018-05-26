@@ -1,37 +1,47 @@
-/*var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express();
+
+var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+
+var dbo
+var upb = 'Zm9zdGVyOjEyMzQ1Ng=='
+var ups = Buffer.from(upb, 'base64').toString();
+var url = 'mongodb://user:1@ds261479.mlab.com:61479/workshop';
+
+router.use(bodyParser.urlencoded({extended: true}))
+
+MongoClient.connect(url,(err,client) =>{
+    if (err) return console.log(err)
+    dbo = client.db('workshop');
+    router.listen(3000, () => {
+        console.log('listening on 3000')
+    })
+})
 
 router.get('/', (req, res) => {
-    //    var cursor = dbo.collection('quotes').find()
-      var re = new RegExp(/^as/);
-      //   dbo.collection('quotes').find({name: re}).toArray(function(err, results) {
-      dbo.collection('quotes').find().toArray(function(err, results) {
-  //      console.log(results)
-          //res.render('index.ejs', {quotes: results})
-        console.log(results);
+    var re = new RegExp(/^as/);
+    dbo.collection('quotes').find().toArray(function(err, results) {
+        res.send({express: results})
     })
 })
 
 
 router.post('/quotes', (req,res) =>{
-//    console.log(req.body)
     dbo.collection("quotes").insertOne(req.body, function ( err, result){
         if (err) throw err;
         console.log("1 Quote inserted")
     });
     res.redirect('/');
-//    res.sendFile(__dirname + '/index.html')
 });
 
-module.exports = router;*/
+module.exports = router;
 
-const express = require('express');
 
-const router = express();
 
-router.get('/', (req, res) => {
+/*router.get('/', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
 
 
-module.exports = router;
+module.exports = router;*/
